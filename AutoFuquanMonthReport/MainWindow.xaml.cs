@@ -18,6 +18,7 @@ using System.Windows.Shapes;
 using Aspose.Words.Drawing;
 using System.Drawing;
 using System.IO;
+using AutoFuquanMonthReport.Services;
 
 namespace AutoFuquanMonthReport
 {
@@ -33,7 +34,8 @@ namespace AutoFuquanMonthReport
 
         private void AutoReport_Click(object sender, RoutedEventArgs e)
         {
-            string templateFile = "外观检查报告模板.docx";
+            string templateFile = "福泉路互通监测月报模板.docx";
+            string outputFile = "自动生成的福泉路互通监测月报.docx";
             double ImageWidth = 224.25; double ImageHeight = 168.75;
             var doc = new Document(templateFile);
             
@@ -42,15 +44,15 @@ namespace AutoFuquanMonthReport
 
             builder.MoveTo(pictureTable.Rows[0].Cells[0].FirstParagraph);
 
-
+            string pictureFileName = FileService.GetFileName(@"Pictures", "2811");
             //(暂时用文件名校验)
             //if (!File.Exists($"PicturesOut/{Path.GetFileName(pictureFileName)}"))
             //{
             //    ImageServices.CompressImage($"{pictureFileName}", $"PicturesOut/{Path.GetFileName(pictureFileName)}", CompressImageFlag);    //只取查找到的第1个文件，TODO：UI提示       
             //}
-            builder.InsertImage($"PicturesOut/{System.IO.Path.GetFileName("2811")}", RelativeHorizontalPosition.Margin, 0, RelativeVerticalPosition.Margin, 0, ImageWidth, ImageHeight, WrapType.Inline);
+            builder.InsertImage($"Pictures/{System.IO.Path.GetFileName(pictureFileName)}", RelativeHorizontalPosition.Margin, 0, RelativeVerticalPosition.Margin, 0, ImageWidth, ImageHeight, WrapType.Inline);
 
-
+            doc.Save(outputFile, SaveFormat.Docx);
 
         }
     }
